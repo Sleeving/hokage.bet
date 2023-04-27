@@ -1,2 +1,2 @@
 <h1>Hokage.bet</h1>
-<div class="tenor-gif-embed" data-postid="25801242" data-share-method="host" data-aspect-ratio="1.20301" data-width="100%"><a href="https://tenor.com/view/xqc-gambling-gamble-gambler-gambling-addiction-gif-25801242">Xqc Gambling GIF</a>from <a href="https://tenor.com/search/xqc-gifs">Xqc GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<img height="200" src="/Users/user1/Downloads/xqc-gambling.gif" width="200"/>

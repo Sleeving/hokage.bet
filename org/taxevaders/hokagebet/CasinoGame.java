@@ -1,6 +1,6 @@
 package org.taxevaders.hokagebet;
 
-public abstract class CasinoGame {
+public abstract class CasinoGame extends User {
     private String gameName;
     private double minBet;
     private double maxBet;

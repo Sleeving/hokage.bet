@@ -38,27 +38,62 @@ public class Main  {
 
         return input.nextInt();
     }
+    public static double caseProbability(Item.Rarity rarity) {
+        return switch (rarity) {
+            case LEGENDARY -> 0.26;
+            case COVERT -> 0.64;
+            case CLASSIFIED -> 3.2;
+            case RESTRICTED -> 15.98;
+            case MILSPEC -> 79.92;
+            default -> throw new IllegalArgumentException("Unknown Rarity.");
+        };
+    }
     public static ArrayList<Case> setUpCases() {
         // Create items
-        ArrayList<Item> items = new ArrayList<>();
-        Item knife = new Item("Knife", Item.Rarity.LEGENDARY, Item.ItemType.KNIFE);
-        Item gun = new Item("Gun", Item.Rarity.MILSPEC, Item.ItemType.GUN);
-        items.add(knife);
-        items.add(gun);
+        ArrayList<Item> items1 = new ArrayList<>();
+        Item karambit = new Item("Karambit | Marble Fade", Item.Rarity.LEGENDARY, Item.ItemType.KNIFE);
+        Item fireSerpent = new Item("AK-47 | Fire Serpent", Item.Rarity.COVERT, Item.ItemType.GUN);
+        Item targetAcquired = new Item("USP-S | Target Acquired", Item.Rarity.CLASSIFIED, Item.ItemType.GUN);
+        Item dragonTattoo = new Item("Glock-18 | Dragon Tattoo", Item.Rarity.RESTRICTED, Item.ItemType.GUN);
+        Item safariMesh = new Item("AWP | Safari Mesh", Item.Rarity.MILSPEC, Item.ItemType.GUN);
+        items1.add(karambit);
+        items1.add(fireSerpent);
+        items1.add(targetAcquired);
+        items1.add(dragonTattoo);
+        items1.add(safariMesh);
+
+        ArrayList<Item> items2 = new ArrayList<>();
+        Item viceGloves = new Item("Sport Gloves | Vice", Item.Rarity.LEGENDARY, Item.ItemType.GLOVES);
+        Item dragonLore = new Item("AWP | Dragon Lore", Item.Rarity.COVERT, Item.ItemType.GUN);
+        Item caseHardened = new Item("AK-47 | Case Hardened", Item.Rarity.CLASSIFIED, Item.ItemType.GUN);
+        Item sunsetStorm = new Item("Desert Eagle | Sunset Storm", Item.Rarity.RESTRICTED, Item.ItemType.GUN);
+        Item sandDune = new Item("P250 | Sand Dune", Item.Rarity.MILSPEC, Item.ItemType.GUN);
+        items2.add(viceGloves);
+        items2.add(dragonLore);
+        items2.add(caseHardened);
+        items2.add(sunsetStorm);
+        items2.add(sandDune);
+
 
         // Set probabilities
         ArrayList<Double> probabilities = new ArrayList<>();
-        double knifeProbability = 1.0 / 400;
-        double gunProbability = 1 - knifeProbability;
-        probabilities.add(knifeProbability);
-        probabilities.add(gunProbability);
+        for(Item item : items1) {
+            double probability1 = caseProbability(item.getRarity());
+            probabilities.add(probability1);
+        }
+        for(Item item : items2) {
+            double probability2 = caseProbability(item.getRarity());
+            probabilities.add(probability2);
+        }
 
         // Create the case
-        Case caseExample = new Case("Example Case", items, probabilities);
+        Case case1 = new Case("Bravo Case", items1, probabilities);
+        Case case2 = new Case("Glove Case", items2, probabilities);
 
         // Add more cases if needed
         ArrayList<Case> cases = new ArrayList<>();
-        cases.add(caseExample);
+        cases.add(case1);
+        cases.add(case2);
 
         return cases;
     }
@@ -95,14 +130,16 @@ public class Main  {
                     }
                     break;
                 case 3:
-
+                    Dice diceGame = new Dice(user);
+                    diceGame.playGame();
                     break;
                 case 4:
                     Scanner input = new Scanner(System.in);
                     user.setBalance(input.nextDouble());
+                    System.out.println("Balance was set to: $" + user.getBalance());
                     break;
                 default:
-                    System.out.println("invalid choice. try again");
+                    System.out.println("Invalid choice. Try again");
                     break;
             }
         } while (gameChoice != 0);

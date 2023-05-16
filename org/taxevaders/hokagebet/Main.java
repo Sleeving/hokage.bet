@@ -1,9 +1,10 @@
 package org.taxevaders.hokagebet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-public class Main  {
+public class Main {
     public static User createAccount() {
         try {
             Scanner input = new Scanner(System.in);
@@ -14,7 +15,7 @@ public class Main  {
 
             System.out.print("Enter your age: ");
             int age = input.nextInt();
-            if(age < 18)
+            if (age < 18)
                 throw new InputMismatchException();
 
             System.out.print("Enter amount of balance to deposit: ");
@@ -22,12 +23,13 @@ public class Main  {
 
             return new User(name, age, balance);
 
-        } catch(InputMismatchException e) {
+        } catch (InputMismatchException e) {
             System.out.println("Invalid entry.");
             System.out.println();
             return createAccount();
         }
     }
+
     public static int mainMenu() {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to Hokage.bet. Choose a game below:");
@@ -38,6 +40,7 @@ public class Main  {
 
         return input.nextInt();
     }
+
     public static double caseProbability(Item.Rarity rarity) {
         return switch (rarity) {
             case LEGENDARY -> 0.26;
@@ -48,6 +51,7 @@ public class Main  {
             default -> throw new IllegalArgumentException("Unknown Rarity.");
         };
     }
+
     public static ArrayList<Case> setUpCases() {
         // Create items
         ArrayList<Item> items1 = new ArrayList<>();
@@ -77,11 +81,11 @@ public class Main  {
 
         // Set probabilities
         ArrayList<Double> probabilities = new ArrayList<>();
-        for(Item item : items1) {
+        for (Item item : items1) {
             double probability1 = caseProbability(item.getRarity());
             probabilities.add(probability1);
         }
-        for(Item item : items2) {
+        for (Item item : items2) {
             double probability2 = caseProbability(item.getRarity());
             probabilities.add(probability2);
         }
@@ -97,7 +101,8 @@ public class Main  {
 
         return cases;
     }
-    public static int chooseCase(ArrayList<Case> cases) {
+
+    public static int chooseCase(ArrayList<Case> cases, User user) {
         Scanner input = new Scanner(System.in);
 
         System.out.println("Choose a case to open:");
@@ -106,25 +111,40 @@ public class Main  {
         }
         System.out.println("0. Go back");
 
-        return input.nextInt() - 1;
+        int caseIndex = input.nextInt() - 1;
+
+        // Check if user has enough balance to open the case
+        if (user.getBalance() < 3.0) {
+            System.out.println("Insufficient balance to open a case. Please deposit more money.");
+            return -1;
+        }
+
+        if (caseIndex >= 0 && caseIndex < cases.size()) {
+            // Deduct the balance
+            user.setBalance(user.getBalance() - 3.0);
+        }
+
+        return caseIndex;
     }
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         User user = createAccount();
         ArrayList<Case> cases = setUpCases();
         int gameChoice;
 
         do {
             gameChoice = mainMenu();
-            switch(gameChoice) {
+            switch (gameChoice) {
                 case 1:
-                    System.out.println("blackjack");
+                    BlackJack blackJackGame = new BlackJack(user);
+                    blackJackGame.playGame();
                     break;
                 case 2:
-                    int caseIndex = chooseCase(cases);
+                    int caseIndex = chooseCase(cases, user);
                     if (caseIndex >= 0 && caseIndex < cases.size()) {
                         Case selectedCase = cases.get(caseIndex);
-                        Item unboxedItem = selectedCase.openCase();
-                        System.out.println("You unboxed: " + unboxedItem.getName() + " (Rarity: " + unboxedItem.getRarity() + ")");
+                        selectedCase.openCase(user);
+                        System.out.println("Total winnings so far: " + user.getTotalWinnings());
                     } else {
                         System.out.println("Invalid case selection. Try again.");
                     }

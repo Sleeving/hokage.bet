@@ -17,7 +17,7 @@ public class BlackJack extends CasinoGame {
     public void playGame() {
         // Place a bet before the game starts
         Scanner betInput = new Scanner(System.in);
-        System.out.println("Enter your bet amount:");
+        System.out.print("Enter your bet amount: ");
         setBet(betInput.nextDouble());
 
         Deck deck = new Deck();

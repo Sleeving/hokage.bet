@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Main {
-    public static User createAccount() {
+    public static User createAccount() { 
         try {
             Scanner input = new Scanner(System.in);
             System.out.println("Welcome. Create an account below:");
@@ -42,14 +42,20 @@ public class Main {
     }
 
     public static double caseProbability(Item.Rarity rarity) {
-        return switch (rarity) {
-            case LEGENDARY -> 0.26;
-            case COVERT -> 0.64;
-            case CLASSIFIED -> 3.2;
-            case RESTRICTED -> 15.98;
-            case MILSPEC -> 79.92;
-            default -> throw new IllegalArgumentException("Unknown Rarity.");
-        };
+        switch(rarity) {
+            case LEGENDARY:
+                return 0.0026;
+            case COVERT:
+                return 0.0064;
+            case CLASSIFIED:
+                return 0.032;
+            case RESTRICTED:
+                return 0.1598;
+            case MILSPEC:
+                return 0.7992;
+            default:
+                throw new IllegalArgumentException("Unknown Rarity.");
+        }
     }
 
     public static ArrayList<Case> setUpCases() {
@@ -80,19 +86,21 @@ public class Main {
 
 
         // Set probabilities
-        ArrayList<Double> probabilities = new ArrayList<>();
+        ArrayList<Double> probabilities1 = new ArrayList<>();
         for (Item item : items1) {
             double probability1 = caseProbability(item.getRarity());
-            probabilities.add(probability1);
-        }
-        for (Item item : items2) {
-            double probability2 = caseProbability(item.getRarity());
-            probabilities.add(probability2);
+            probabilities1.add(probability1);
         }
 
-        // Create the case
-        Case case1 = new Case("Bravo Case", items1, probabilities);
-        Case case2 = new Case("Glove Case", items2, probabilities);
+        ArrayList<Double> probabilities2 = new ArrayList<>();
+        for (Item item : items2) {
+            double probability2 = caseProbability(item.getRarity());
+            probabilities2.add(probability2);
+        }
+
+        // Create the case objects
+        Case case1 = new Case("Bravo Case", items1, probabilities1);
+        Case case2 = new Case("Glove Case", items2, probabilities2);
 
         // Add more cases if needed
         ArrayList<Case> cases = new ArrayList<>();

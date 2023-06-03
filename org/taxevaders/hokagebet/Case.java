@@ -78,19 +78,19 @@ public class Case {
         double winnings = 0;
         switch(unboxedItem.getRarity()) {
             case MILSPEC:
-                winnings = 3 * 10;
+                winnings = 0.03 * 10;
                 break;
             case RESTRICTED:
-                winnings = 3 * 10 * 10;
+                winnings = 0.03 * 10 * 10;
                 break;
             case CLASSIFIED:
-                winnings = 3 * 10 * 10 * 10;
+                winnings = 0.03 * 10 * 10 * 10;
                 break;
             case COVERT:
-                winnings = 3 * 10 * 10 * 10 * 10;
+                winnings = 0.03 * 10 * 10 * 10 * 10;
                 break;
             case LEGENDARY:
-                winnings = 3 * 10 * 10 * 10 * 10 * 10;
+                winnings = 0.03 * 10 * 10 * 10 * 10 * 10;
                 break;
             default:
                 break;
